@@ -1,8 +1,11 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EvaluationService {
 
@@ -30,8 +33,12 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String[] acronymPhrase = phrase.split("[^a-zA-Z']+"); //regex meaning ^ negated set meaning matches character not [a-z or A-Z or "" character] + matches one or more times
+        String acronym = "";
+        for(int i = 0; i < acronymPhrase.length; i++) {
+            acronym = acronym + acronymPhrase[i].charAt(0);
+        }
+        return acronym.toUpperCase();
 	}
 
 	/**
@@ -84,18 +91,28 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (sideOne != sideTwo && sideOne != sideThree) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (sideOne == sideTwo || sideTwo == sideThree || sideOne == sideThree) {
+				return true;
+			} else {
+				return false;
+			}
+			
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (sideOne == sideTwo || sideTwo == sideThree || sideOne == sideThree) {
+				return false;
+			} else {
+			return true;
+			}
 		}
 
 	}
@@ -116,8 +133,53 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		char a = 'a';
+		char b = 'b';
+		char c = 'c';
+		char d = 'd';
+		char e = 'e';
+		char f = 'f';
+		char g = 'g';
+		char h = 'h';
+		char i = 'i';
+		char j = 'j';
+		char k = 'k';
+		char l = 'l';
+		char m = 'm';
+		char n = 'n';
+		char o = 'o';
+		char p = 'p';
+		char q = 'q';
+		char r = 'r';
+		char s = 's';
+		char t = 't';
+		char u = 'u';
+		char v = 'v';
+		char w = 'w';
+		char x = 'x';
+		char y = 'y';
+		char z = 'z';
+		int  result = 0;
+		for (int it = 0; it < string.length(); it++) {
+			char check1 = string.charAt(it);
+			char check = Character.toLowerCase(check1);
+			if (check == a || check == e || check == i || check == o || check == u || check == l || check == n || check == r || check == s || check == t) {
+				result = result + 1;
+			} else if (check == d || check == g) {
+				result = result + 2;
+			} else if (check == b || check == c || check == m ||  check == p) {
+				result = result + 3;
+			} else if (check == f || check == h || check == v || check == w || check ==  y) {
+				result = result + 4;
+			} else if (check == k) {
+				result = result + 5;
+			} else if (check == j || check == x) {
+				result = result + 8;
+			} else if (check == z || check == q) {
+				result = result + 10;
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -152,8 +214,17 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String cleanNum = string.replaceAll("\\D", "");
+		if (cleanNum.length() > 11) {
+			throw new IllegalArgumentException();
+		} else if (string.matches("[a-zA-Z]")) {
+			throw new IllegalArgumentException();
+		} else if (string.matches("[-@:!]")) {
+			throw new IllegalArgumentException();
+		} else {
+		
+		return cleanNum;
+		}
 	}
 
 	/**
@@ -166,8 +237,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String[] word = string.split("\\s");
+		Map<String, Integer> hashMap = new HashMap<String, Integer>();
+		for(int i = 0; i<word.length; i++) {
+			if (hashMap.containsKey(word[i])) {
+				int count = hashMap.get(word[i]);
+				hashMap.put(word[i], count + 1);
+			} else {
+				hashMap.put(word[i], 1);
+			}
+		}
+		return hashMap;
 	}
 
 	/**
@@ -209,8 +289,7 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
+			return Arrays.binarySearch(sortedList.toArray(), t);
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -246,9 +325,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		char a = 'a';
+		char e = 'e';
+		char i = 'i';
+		char o = 'o';
+		char u = 'u';
+		char firstLetter = string.charAt(0);
+		String pig = string.replaceAll("\\s", "");
+		String [] nonVowel = string.split("(?=[aeiou])");
+		StringBuilder replace = new StringBuilder (string);
+		String finalPig = "";
+		if (firstLetter == a || firstLetter == e || firstLetter == i || firstLetter == o || firstLetter == u) {
+			return string + "ay";
+		} else {
+			for(int it = 1; it < nonVowel.length; it++) {
+				finalPig = finalPig + nonVowel[it];
+			}
+			return finalPig + nonVowel[0] + "ay";
+		}
+	
+		
 	}
+	
 
 	/**
 	 * 9. An Armstrong number is a number that is the sum of its own digits each
@@ -266,8 +364,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		int i = input;
+		int num = input;
+		int remainder;
+		int total = 0;
+		int length = String.valueOf(input).length();
+		while (i>0) {
+			remainder = i % 10;
+			i = i/10;
+			
+			total = (int) (total + Math.pow(remainder, length));
+		}
+		if (num == total) {
+			return true;
+		} else {
+			return false;
+		}	
 	}
 
 	/**
@@ -281,8 +393,14 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		List <Long> factors = new ArrayList<Long>();
+		for (long i = 2; i<=l; i++) {
+			while(l % i == 0) {
+				factors.add(i);
+				l = l / i;
+			}
+		}
+		return factors;
 	}
 
 	/**
@@ -320,8 +438,16 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String rotateCyp = "";
+			for (int i = 0; i<string.length(); i++) {
+				char check = (char) ((char) string.charAt(i) + key);
+				if (check > 'z') {
+					rotateCyp = rotateCyp + ((char) string.charAt(i) - (26-key));
+				} else {
+					rotateCyp = rotateCyp + ((char) string.charAt(i) + key);
+				}
+			}
+			return rotateCyp;
 		}
 
 	}
@@ -339,8 +465,30 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		if (i < 1) {
+			throw new IllegalArgumentException();
+		}
+		int numberOfPrime = 0;
+		int currentNumber = 2;
+		int currentPrime = 2;
+		while(numberOfPrime < i) {
+			if (prime(currentNumber)) {
+				numberOfPrime++;
+				currentPrime = currentNumber;
+			}
+			currentNumber++;
+		}
+		return currentPrime;
+	}
+	public boolean prime(int currentNumber) {
+		boolean prime = true;
+		for (int i = 2; i<=currentNumber/2; i++ ) {
+			if (currentNumber % i == 0) {
+				prime = false;
+				break;
+			}
+		}
+		return prime;
 	}
 
 	/**
@@ -376,8 +524,197 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String code = "";
+			String noCapitals = string.toLowerCase();
+			String noWhiteSpace = noCapitals.replaceAll("\\s", "");
+			for (int it = 0; it<noWhiteSpace.length(); it++) {
+				if (it > 0 && it % 5 == 0) {
+					code = code + " ";
+					switch (noWhiteSpace.charAt(it)) {
+					case 'a':
+						code = code + 'z';
+						break;
+					case 'b':
+						code = code + 'y';
+						break;
+					case 'c':
+						code = code + 'x';
+						break;
+					case 'd':
+						code = code + 'w';
+						break;
+					case 'e':
+						code = code + 'v';
+						break;
+					case 'f':
+						code = code + 'u';
+						break;
+					case 'g':
+						code = code + 't';
+						break;
+					case 'h':
+						code = code + 's';
+						break;
+					case 'i':	
+						code = code + 'r';
+						break;
+					case 'j':
+						code = code + 'q';
+						break;
+					case 'k':
+						code = code + 'p';
+						break;
+					case 'l':
+						code = code + 'o';
+						break;
+					case 'm':
+						code = code + 'n';
+						break;
+					case 'n':
+						code = code + 'm';
+						break;
+					case 'o':
+						code = code + 'l';
+						break;
+					case 'p':
+						code = code + 'k';
+						break;
+					case 'q':
+						code = code + 'j';
+						break;
+					case 'r':
+						code = code + 'i';
+						break;
+					case 's':
+						code = code + 'h';
+						break;
+					case 't':
+						code = code + 'g';
+						break;
+					case 'u':
+						code = code + 'f';
+						break;
+					case 'v':
+						code = code + 'e';
+						break;
+					case 'w':
+						code = code + 'd';
+						break;
+					case 'x':
+						code = code + 'c';
+						break;
+					case 'y':
+						code = code + 'b';
+						break;
+					case 'z':
+						code = code + 'a';
+						break;
+					case '1':
+						code = code + '1';
+						break;
+					case '2':
+						code = code + '2';
+						break;
+					case '3':
+						code = code + '3';
+						break;
+					}
+				} else {
+					
+				
+				switch (noWhiteSpace.charAt(it)) {
+				case 'a':
+					code = code + 'z';
+					break;
+				case 'b':
+					code = code + 'y';
+					break;
+				case 'c':
+					code = code + 'x';
+					break;
+				case 'd':
+					code = code + 'w';
+					break;
+				case 'e':
+					code = code + 'v';
+					break;
+				case 'f':
+					code = code + 'u';
+					break;
+				case 'g':
+					code = code + 't';
+					break;
+				case 'h':
+					code = code + 's';
+					break;
+				case 'i':	
+					code = code + 'r';
+					break;
+				case 'j':
+					code = code + 'q';
+					break;
+				case 'k':
+					code = code + 'p';
+					break;
+				case 'l':
+					code = code + 'o';
+					break;
+				case 'm':
+					code = code + 'n';
+					break;
+				case 'n':
+					code = code + 'm';
+					break;
+				case 'o':
+					code = code + 'l';
+					break;
+				case 'p':
+					code = code + 'k';
+					break;
+				case 'q':
+					code = code + 'j';
+					break;
+				case 'r':
+					code = code + 'i';
+					break;
+				case 's':
+					code = code + 'h';
+					break;
+				case 't':
+					code = code + 'g';
+					break;
+				case 'u':
+					code = code + 'f';
+					break;
+				case 'v':
+					code = code + 'e';
+					break;
+				case 'w':
+					code = code + 'd';
+					break;
+				case 'x':
+					code = code + 'c';
+					break;
+				case 'y':
+					code = code + 'b';
+					break;
+				case 'z':
+					code = code + 'a';
+					break;
+				case '1':
+					code = code + '1';
+					break;
+				case '2':
+					code = code + '2';
+					break;
+				case '3':
+					code = code + '3';
+					break;
+				}
+				}
+			}
+			
+			return code.trim();
 		}
 
 		/**
@@ -387,8 +724,101 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String noWhite = string.replaceAll("\\s", "");
+			String decodeString = "";
+			for (int it = 0; it < noWhite.length(); it++) {
+				switch (noWhite.charAt(it)) {
+				case 'a':
+					decodeString = decodeString + 'z';
+					break;
+				case 'b':
+					decodeString = decodeString + 'y';
+					break;
+				case 'c':
+					decodeString = decodeString + 'x';
+					break;
+				case 'd':
+					decodeString = decodeString + 'w';
+					break;
+				case 'e':
+					decodeString = decodeString + 'v';
+					break;
+				case 'f':
+					decodeString = decodeString + 'u';
+					break;
+				case 'g':
+					decodeString = decodeString + 't';
+					break;
+				case 'h':
+					decodeString = decodeString + 's';
+					break;
+				case 'i':	
+					decodeString = decodeString + 'r';
+					break;
+				case 'j':
+					decodeString = decodeString + 'q';
+					break;
+				case 'k':
+					decodeString = decodeString + 'p';
+					break;
+				case 'l':
+					decodeString = decodeString + 'o';
+					break;
+				case 'm':
+					decodeString = decodeString + 'n';
+					break;
+				case 'n':
+					decodeString = decodeString + 'm';
+					break;
+				case 'o':
+					decodeString = decodeString + 'l';
+					break;
+				case 'p':
+					decodeString = decodeString+ 'k';
+					break;
+				case 'q':
+					decodeString = decodeString + 'j';
+					break;
+				case 'r':
+					decodeString = decodeString + 'i';
+					break;
+				case 's':
+					decodeString = decodeString + 'h';
+					break;
+				case 't':
+					decodeString = decodeString + 'g';
+					break;
+				case 'u':
+					decodeString = decodeString + 'f';
+					break;
+				case 'v':
+					decodeString = decodeString + 'e';
+					break;
+				case 'w':
+					decodeString = decodeString + 'd';
+					break;
+				case 'x':
+					decodeString = decodeString + 'c';
+					break;
+				case 'y':
+					decodeString = decodeString + 'b';
+					break;
+				case 'z':
+					decodeString = decodeString + 'a';
+					break;
+				case '1':
+					decodeString = decodeString + '1';
+					break;
+				case '2':
+					decodeString = decodeString + '2';
+					break;
+				case '3':
+					decodeString = decodeString + '3';
+					break;
+				}
+				
+			}
+			return decodeString;
 		}
 	}
 
@@ -433,8 +863,20 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
+		String pangram = string.replaceAll("[^a-zA-z]", "");
+		String pangramLower = pangram.toLowerCase();
+		//char [] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+		char [] pangramArr = pangramLower.toCharArray();
+		Set<Character> charSet = new HashSet<Character>();
+		for (char ch : pangramArr) {
+			charSet.add(ch);
+		
+		}
+		if (charSet.size() == 26) {
+			return true;
+		} else {
 		return false;
+		}
 	}
 
 	/**
@@ -446,8 +888,18 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		Temporal date;
+		long gigasecond = 1_000_000_000;
+		
+		try {
+		date=LocalDateTime.from(given);
+		} catch(Exception e) {
+			date = ((LocalDate)given).atStartOfDay(); 
+		}
+		
+		return date.plus(gigasecond, ChronoUnit.SECONDS);
+	
+		
 	}
 
 	/**
@@ -464,9 +916,19 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		HashSet <Integer> sumSet = new HashSet <Integer>();
+		
+		for (int j = 0; j < i; j++) {
+			for (int k = 0; k < set.length; k++) {
+				if (j % set[k] == 0) {
+					sumSet.add(j);
+				}
+			}
+		}
+		Integer result = sumSet.stream().mapToInt(Integer::intValue).sum();
+		return result;
 	}
+	
 
 	/**
 	 * 19. Given a number determine whether or not it is valid per the Luhn formula.
@@ -537,7 +999,7 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
+		
 		return 0;
 	}
 
